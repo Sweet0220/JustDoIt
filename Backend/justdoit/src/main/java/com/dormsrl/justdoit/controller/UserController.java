@@ -3,6 +3,8 @@ package com.dormsrl.justdoit.controller;
 import com.dormsrl.justdoit.dto.UserDto;
 import com.dormsrl.justdoit.error.ErrorHandler;
 import com.dormsrl.justdoit.error.ErrorResponse;
+import com.dormsrl.justdoit.error.ViolationResponse;
+import com.dormsrl.justdoit.exception.ValidationException;
 import com.dormsrl.justdoit.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +91,11 @@ public class UserController {
             userService.saveUser(userDto);
             return new ResponseEntity<>(null, CREATED);
         }
+        catch (ValidationException v) {
+            log.error(v.getMessage(), v);
+            ViolationResponse violationResponse = ErrorHandler.generateViolationResponse(v, BAD_REQUEST, "POST /api/users");
+            return new ResponseEntity<>(violationResponse, BAD_REQUEST);
+        }
         catch (Exception e) {
             log.error(e.getMessage(), e);
             ErrorResponse errorResponse = ErrorHandler.generateErrorResponse(e, INTERNAL_SERVER_ERROR, "POST /api/users");
@@ -96,15 +103,20 @@ public class UserController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateUser(@RequestBody UserDto userDto, @PathVariable Long id) {
         try {
-            userService.updateUser(userDto);
+            userService.updateUser(userDto, id);
             return new ResponseEntity<>(null, OK);
+        }
+        catch (ValidationException v) {
+            log.error(v.getMessage(), v);
+            ViolationResponse violationResponse = ErrorHandler.generateViolationResponse(v, BAD_REQUEST, "PUT /api/users/" + id);
+            return new ResponseEntity<>(violationResponse, BAD_REQUEST);
         }
         catch (Exception e) {
             log.error(e.getMessage(), e);
-            ErrorResponse errorResponse = ErrorHandler.generateErrorResponse(e, INTERNAL_SERVER_ERROR, "PUT /api/users");
+            ErrorResponse errorResponse = ErrorHandler.generateErrorResponse(e, INTERNAL_SERVER_ERROR, "PUT /api/users/" + id);
             return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
         }
     }

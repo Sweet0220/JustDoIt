@@ -1,9 +1,13 @@
 package com.dormsrl.justdoit.service.impl;
 
 import com.dormsrl.justdoit.dto.ListDto;
+import com.dormsrl.justdoit.entity.User;
 import com.dormsrl.justdoit.entity.enums.ListCategory;
+import com.dormsrl.justdoit.exception.ValidationException;
 import com.dormsrl.justdoit.repository.ListRepository;
+import com.dormsrl.justdoit.repository.UserRepository;
 import com.dormsrl.justdoit.service.ListService;
+import com.dormsrl.justdoit.validation.DtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +18,14 @@ import java.util.List;
 public class ListServiceImpl implements ListService {
 
     private final ListRepository listRepository;
+    private final UserRepository userRepository;
+    private final DtoValidator<ListDto> dtoValidator;
 
     @Autowired
-    public ListServiceImpl(ListRepository listRepository) {
+    public ListServiceImpl(ListRepository listRepository, UserRepository userRepository, DtoValidator<ListDto> dtoValidator) {
         this.listRepository = listRepository;
+        this.userRepository = userRepository;
+        this.dtoValidator = dtoValidator;
     }
 
     @Override
@@ -42,13 +50,36 @@ public class ListServiceImpl implements ListService {
     }
 
     @Override
-    public void saveList(ListDto listDto) {
-
+    public void saveList(ListDto listDto, Long userId) throws ValidationException {
+        dtoValidator.validate(listDto);
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            List<String> v = new ArrayList<>();
+            v.add("Cannot add list for inexistent user");
+            throw new ValidationException(v);
+        }
+        com.dormsrl.justdoit.entity.List list = new com.dormsrl.justdoit.entity.List();
+        list.setId(null);
+        list.setName(listDto.getName());
+        list.setCategory(listDto.getCategory());
+        list.setPriority(listDto.getPriority());
+        list.setUser(user);
+        listRepository.save(list);
     }
 
     @Override
-    public void updateList(ListDto listDto) {
-
+    public void updateList(ListDto listDto, Long id) throws ValidationException {
+        dtoValidator.validate(listDto);
+        com.dormsrl.justdoit.entity.List list = listRepository.findById(id).orElse(null);
+        if (list == null) {
+            List<String> v = new ArrayList<>();
+            v.add("List with id " + id + " does not exist");
+            throw new ValidationException(v);
+        }
+        list.setName(listDto.getName());
+        list.setCategory(listDto.getCategory());
+        list.setPriority(listDto.getPriority());
+        listRepository.save(list);
     }
 
     @Override

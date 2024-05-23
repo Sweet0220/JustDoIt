@@ -1,8 +1,7 @@
 package com.dormsrl.justdoit.validation;
 
-import org.springframework.stereotype.Component;
+import com.dormsrl.justdoit.exception.ValidationException;
 
-@Component
 public interface DtoValidator<T> {
-    void validate(T dto, ValidationType validationType);
+    void validate(T dto) throws ValidationException;
 }

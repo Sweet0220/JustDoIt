@@ -13,5 +13,5 @@ public class ListDto implements Serializable {
     Long id;
     String name;
     ListCategory category;
-    int priority;
+    Integer priority;
 }

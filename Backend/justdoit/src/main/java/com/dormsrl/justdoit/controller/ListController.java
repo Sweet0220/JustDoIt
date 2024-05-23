@@ -4,6 +4,8 @@ import com.dormsrl.justdoit.dto.ListDto;
 import com.dormsrl.justdoit.entity.enums.ListCategory;
 import com.dormsrl.justdoit.error.ErrorHandler;
 import com.dormsrl.justdoit.error.ErrorResponse;
+import com.dormsrl.justdoit.error.ViolationResponse;
+import com.dormsrl.justdoit.exception.ValidationException;
 import com.dormsrl.justdoit.service.ListService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class ListController {
     public ResponseEntity<Object> getListByUserId(@PathVariable("userId") Long userId) {
         try {
             List<ListDto> listDtos = listService.getListsByUserId(userId);
-            if (listDtos == null) {
+            if (listDtos == null || listDtos.isEmpty()) {
                 return new ResponseEntity<>(null, NOT_FOUND);
             }
             return new ResponseEntity<>(listDtos, OK);
@@ -62,7 +64,7 @@ public class ListController {
     public ResponseEntity<Object> getListsByUserIdAndCategory(@RequestParam("userId") Long userId, @RequestParam("category")ListCategory category) {
         try {
             List<ListDto> listDtos = listService.getByCategoryAndUserId(category, userId);
-            if (listDtos == null) {
+            if (listDtos == null || listDtos.isEmpty()) {
                 return new ResponseEntity<>(null, NOT_FOUND);
             }
             return new ResponseEntity<>(listDtos, OK);
@@ -87,24 +89,34 @@ public class ListController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createList(@RequestBody ListDto listDto) {
+    @PostMapping("/for-user/{userId}")
+    public ResponseEntity<Object> createList(@RequestBody ListDto listDto, @PathVariable Long userId) {
         try {
-            listService.saveList(listDto);
+            listService.saveList(listDto, userId);
             return new ResponseEntity<>(null, CREATED);
+        }
+        catch (ValidationException v) {
+            log.error(v.getMessage(), v);
+            ViolationResponse violationResponse = ErrorHandler.generateViolationResponse(v, BAD_REQUEST, "POST /api/lists/for-user/" + userId);
+            return new ResponseEntity<>(violationResponse, BAD_REQUEST);
         }
         catch (Exception e) {
             log.error(e.getMessage(), e);
-            ErrorResponse errorResponse = ErrorHandler.generateErrorResponse(e, INTERNAL_SERVER_ERROR, "POST /api/lists");
+            ErrorResponse errorResponse = ErrorHandler.generateErrorResponse(e, INTERNAL_SERVER_ERROR, "POST /api/lists/for-user/" + userId);
             return new ResponseEntity<>(errorResponse, INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PutMapping
-    public ResponseEntity<Object> updateList(@RequestBody ListDto listDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateList(@RequestBody ListDto listDto, @PathVariable Long id) {
         try {
-            listService.updateList(listDto);
+            listService.updateList(listDto, id);
             return new ResponseEntity<>(null, OK);
+        }
+        catch (ValidationException v) {
+            log.error(v.getMessage(), v);
+            ViolationResponse violationResponse = ErrorHandler.generateViolationResponse(v, BAD_REQUEST, "PUT /api/lists/" + id);
+            return new ResponseEntity<>(violationResponse, BAD_REQUEST);
         }
         catch (Exception e) {
             log.error(e.getMessage(), e);
