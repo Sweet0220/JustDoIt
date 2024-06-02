@@ -1,0 +1,338 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+.vertical_flex {
+  display: flex;
+  flex-direction: column;
+}
+.container .container-1 {
+  width: 30%;
+  height: 90%;
+  background-color: #F4A261;
+  border-radius: 10px;
+}
+
+.container .container-2 {
+  width: 60%;
+  height: 90%;
+  background-color: #F4A261;
+  border-radius: 10px;
+}
+
+.content-container {
+  height: 90%;
+  width: 100%;
+  background-color: #264653;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.horizontal_flex {
+  display: flex;
+}
+
+
+.header {
+  width: 100%;
+  height: 10%;
+  background-color: #2A9D8F;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  box-sizing: border-box;
+}
+
+
+.greeting {
+  font-size: 1rem;
+  font-family: Poppins-Bold, sans-serif;
+  color: #E9C46A;
+}
+
+.logout-button {
+  font-weight: bold;
+  text-transform: uppercase;
+  outline: 0;
+  background: #E9C46A;
+  width: 10%;
+  border: 0;
+  padding: 5px;
+  color: #323341;
+  font-size: 12px;
+  cursor: pointer;
+}
+.nav-container {
+  justify-content: space-between;
+  background-color: #E76F51;
+  width: 100%;
+  height: 10%;
+  padding: 0.5em;
+  box-sizing: border-box;
+  align-items: center;
+  border-radius: 10px 10px 0 0;
+
+}
+
+.nav-container p {
+  color: #264653;
+  font-size: 1.1em;
+}
+
+.nav-button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #a54caf;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.addButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/addButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+}
+
+.addButton:hover {
+  opacity: 1;
+}
+
+.list-container {
+  height: 90%;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  flex-wrap: wrap;
+}
+.list-container::-webkit-scrollbar{
+  display: none;
+}
+
+.list {
+  width: 100%;
+  height: 12%;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1em;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.3ms;
+}
+.list:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.list:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.task {
+  width: 100%;
+  height: 12%;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1em;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all 0.3ms;
+}
+.task:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.task:active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.task p {
+  font-size: 0.9em;
+  color: #264653;
+  flex-grow: 1;
+}
+
+.task .editButton {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/editButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+  margin-right: 0.5em;
+}
+.task .editButton:hover {
+  opacity: 1;
+}
+
+.task .deleteButton {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/deleteButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+}
+.task .deleteButton:hover {
+  opacity: 1;
+}
+
+.list p {
+  font-size: 0.9em;
+  color: #264653;
+  flex-grow: 1;
+}
+
+.list .editButton {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/editButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+  margin-right: 0.5em;
+}
+.list .editButton:hover {
+  opacity: 1;
+}
+
+.list .deleteButton {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/deleteButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+}
+.list .deleteButton:hover {
+  opacity: 1;
+}
+.form-cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.6);
+  z-index: 2;
+  justify-content: center;
+  align-items: center;
+}
+
+.add-form {
+  height: 55%;
+  width: 25%;
+  background-color: #E9C46A;
+  border-radius: 10px;
+  align-items: center;
+  row-gap: 1em;
+}
+.form-nav {
+  width: 100%;
+  height: 10%;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 0.8em;
+  box-sizing: border-box;
+}
+.closeButton {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-image: url("../../assets/Icons/closeButton.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: all 0.3ms;
+}
+.closeButton:hover {
+  opacity: 1;
+}
+.add-form select {
+  width: 80%;
+  height: 10%;
+  font-family: Poppins, sans-serif;
+  background-color: #2A9D8F;
+  border: none;
+  outline: none;
+  color: #E9C46A;
+  border-radius: 7px;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+.add-form p {
+  font-family: Poppins-Bold, sans-serif;
+  font-size: 1.3em;
+  color: #2A9D8F;
+}
+.add-form input {
+  width: 80%;
+  height: 10%;
+  font-family: Poppins, sans-serif;
+  background-color: #2A9D8F;
+  border: none;
+  outline: none;
+  color: #E9C46A;
+  border-radius: 7px;
+  padding: 0.5em;
+  box-sizing: border-box;
+}
+
+.add-form input::placeholder {
+  color: #E9C46A;
+}
+.submitButton {
+  width: 60%;
+  height: 10%;
+  font-family: Poppins, sans-serif;
+  background-color: #2A9D8F;
+  color: #E9C46A;
+  border-radius: 7px;
+  cursor: pointer;
+  opacity: 0.5;
+  align-items: center;
+  justify-content: center;
+}
+.submitButton:hover {
+  opacity: 1;
+}
+
+.checkedBox {
+  width: 30px;
+  height: 30px;
+  background-image: url("../../assets/Icons/checkedBox.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  margin-right: 1em;
+}
+.uncheckedBox {
+  width: 30px;
+  height: 30px;
+  background-image: url("../../assets/Icons/uncheckedBox.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+  opacity: 0.5;
+  margin-right: 1em;
+}
+.uncheckedBox:hover {
+  opacity: 1;
+}

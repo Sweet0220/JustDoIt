@@ -1,0 +1,17 @@
+bleu marine
+#264653
+
+verde marin
+#2A9D8F
+
+galben varos
+#E9C46A
+
+clementina deschisa
+#F4A261
+
+portocaliu caramida
+#E76F51
+
+mov
+#7B68EE

@@ -7,6 +7,7 @@ import com.dormsrl.justdoit.repository.UserRepository;
 import com.dormsrl.justdoit.service.UserService;
 import com.dormsrl.justdoit.validation.DtoValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,12 +15,13 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
-
+    private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final DtoValidator<UserDto> dtoValidator;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, DtoValidator<UserDto> dtoValidator) {
+    public UserServiceImpl(PasswordEncoder passwordEncoder, UserRepository userRepository, DtoValidator<UserDto> dtoValidator) {
+        this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.dtoValidator = dtoValidator;
     }
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
         user.setId(null);
         user.setUsername(userDto.getUsername());
         user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setName(userDto.getName());
         userRepository.save(user);
     }

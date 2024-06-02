@@ -1,10 +1,12 @@
 <div class="login-page">
-  <div class="form">
+  <div class="form vertical_flex">
     <form class="login-form">
-      <input type="text" placeholder="Email" />
-      <input type="password" placeholder="Password" />
-      <button>login</button>
-      <p>Don't you have an account? <a>Create one here</a></p>
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username"/>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password"/>
+      <button type="submit" (click)="login()">login</button>
+      <p>Don't you have an account? <a href="/register">Create one here.</a></p>
     </form>
   </div>
 </div>

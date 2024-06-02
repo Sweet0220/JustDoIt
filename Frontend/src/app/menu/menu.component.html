@@ -1,0 +1,157 @@
+
+<div class="container">
+  <div class="form-cover horizontal_flex" *ngIf = "addToggle">
+    <div class="add-form vertical_flex">
+      <div class="form-nav horizontal_flex">
+        <div class="closeButton" (click)="addToggle=false"></div>
+      </div>
+      <p>Add new list</p>
+      <input id="name" type="text" placeholder="Enter list name."/>
+      <select id="category">
+        <option value="" disabled selected>
+          Select your category
+        </option>
+        <option value="HABIT_LIST">
+          Habit list
+        </option>
+        <option value="GOAL_LIST">
+          Goal list
+        </option>
+        <option value="SHOPPING_LIST">
+          Shopping list
+        </option>
+        <option value="TO_DO_LIST">
+          To-do list
+        </option>
+        <option value="MOVIE_LIST">
+          Movie list
+        </option>
+      </select>
+      <input id="priority" type="number" placeholder="Enter the priority of your list." min="1" max="5"/>
+      <div class="submitButton horizontal_flex" (click)="createList()">Submit</div>
+    </div>
+  </div>
+  <div class="form-cover horizontal_flex" *ngIf = "addTaskToggle">
+    <div class="add-form vertical_flex">
+      <div class="form-nav horizontal_flex">
+        <div class="closeButton" (click)="addTaskToggle=false"></div>
+      </div>
+      <p>Add new task</p>
+      <input id="task_name" type="text" placeholder="Enter task name."/>
+      <input id="task_description" type="text" placeholder="Enter your task description."/>
+      <input id="task_startDate" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Enter start date."/>
+      <input id="task_deadline" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Enter deadline."/>
+      <div class="submitButton horizontal_flex" (click)="createTask()">Submit</div>
+    </div>
+  </div>
+  <div class="form-cover horizontal_flex" *ngIf = "editToggle">
+    <div class="add-form vertical_flex">
+      <div class="form-nav horizontal_flex">
+        <div class="closeButton" (click)="editToggle=false"></div>
+      </div>
+      <p>Edit list</p>
+      <input id="name_edit" type="text" placeholder="Enter list name." value="{{listToEdit.name}}"/>
+      <select id="category_edit" [value]="listToEdit.category">
+        <option value="" disabled selected>
+          Select your category
+        </option>
+        <option value="HABIT_LIST">
+          Habit list
+        </option>
+        <option value="GOAL_LIST">
+          Goal list
+        </option>
+        <option value="SHOPPING_LIST">
+          Shopping list
+        </option>
+        <option value="TO_DO_LIST">
+          To-do list
+        </option>
+        <option value="MOVIE_LIST">
+          Movie list
+        </option>
+      </select>
+      <input id="priority_edit" type="number" placeholder="Enter the priority of your list." min="1" max="5" [valueAsNumber]="listToEdit.priority"/>
+      <div class="submitButton horizontal_flex" (click)="updateList()">Submit</div>
+    </div>
+  </div>
+  <header class="header">
+    <div class="greeting">
+      Hi, {{user.name}}! Don't you have something to get done?
+    </div>
+    <button class="logout-button" (click)="logout()">Logout</button>
+  </header>
+  <div class="content-container horizontal_flex">
+    <div class="container-1 vertical_flex">
+      <div class="nav-container horizontal_flex">
+        <p>Your Lists</p>
+        <div class="addButton" (click)="addToggle=true"></div>
+      </div>
+      <div class="list-container vertical_flex">
+        <div class="list horizontal_flex" *ngFor="let l of list" (click)="selectList(l)">
+          <p>{{l.name}}</p>
+          <div class="editButton" (click)="toggleEdit(l, $event)"></div>
+          <div class="deleteButton" (click)="deleteList(l.id, $event)"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container-2 vertical_flex">
+      <div class="nav-container horizontal_flex">
+        <p>{{setTitle()}}</p>
+        <div class="addButton" (click)="toggleAddTask()"></div>
+      </div>
+      <div class="list-container vertical_flex">
+        <div class="task horizontal_flex" *ngFor="let t of task" (click)="toggleTaskEdit(t)" >
+          <div [ngClass]="selectCheckClass(t)" (click)="toggleStatus(t, $event)"></div>
+          <p>{{t.title}}</p>
+          <div class="deleteButton" (click)="deleteTask(t.id, $event)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <div class="form-cover horizontal_flex" *ngIf = "editTaskToggle">
+      <div class="add-form vertical_flex">
+        <div class="form-nav horizontal_flex">
+          <div class="closeButton" (click)="editTaskToggle=false"></div>
+        </div>
+        <p>Edit task</p>
+        <input id="editTask_name" type="text" placeholder="Enter task name." value="{{taskToEdit.title}}"/>
+        <input id="editTask_description" type="text" placeholder="Enter your task description." value="{{taskToEdit.description}}"/>
+        <input id="editTask_startDate" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Enter start date." value="{{taskToEdit.startDate}}"/>
+        <input id="editTask_deadline" onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Enter deadline." value="{{taskToEdit.deadline}}" />
+        <div class="submitButton horizontal_flex" (click)="updateTask()">Submit</div>
+      </div>
+    </div>
+  </div>
+
+
+
+<!--  <div class="container-1 vertical_flex">-->
+<!--   <div class="nav-container">-->
+<!--     <button class="nav-button" (click)="getAllLists(user.id)">Display All Lists</button>-->
+<!--     <button class="nav-button" >Display Lists By Category</button>-->
+<!--     <button class="nav-button" (click)="createList()">Create New List</button>-->
+<!--     <button class="nav-button" >Update List</button>-->
+<!--   </div>-->
+<!--    <div class="list-container vertical_flex">-->
+<!--      <ul>-->
+<!--        <li *ngFor="let list of list">-->
+<!--          {{list.name}}-->
+<!--          <button (click)="deleteList(list.id)">Remove List</button>-->
+<!--        </li>-->
+<!--      </ul>-->
+<!--    </div>-->
+
+<!--   <form>-->
+<!--     <label for="name">Name:</label>-->
+<!--     <input id="name" type="text" />-->
+
+<!--     <label for="category">Category:</label>-->
+
+
+<!--     <label for="priority">Priority:</label>-->
+<!--     <input id="priority" type="number"/>-->
+
+<!--   </form>-->
+<!--  </div>-->
+
